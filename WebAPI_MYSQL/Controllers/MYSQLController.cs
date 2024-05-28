@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using SQLUI;
 using Basic;
+using Newtonsoft.Json;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,7 +16,7 @@ namespace WebAPI_MYSQL.Controllers
     public class MYSQLController : Controller
     {
         // GET: api/<MYSQLController>
-        [HttpGet]
+        [HttpGet("addrow")]
         public string Get()
         {
             List<Table> tables = CheckCreateTable();
@@ -27,14 +28,13 @@ namespace WebAPI_MYSQL.Controllers
             SQLControl sQLControl = new SQLControl(table);
             object[] value = new object[new enum_profile_api().GetLength()];
             value[(int)enum_profile_api.GUID] = Guid.NewGuid().ToString();
-            value[(int)enum_profile_api.姓名] = "1";
-            value[(int)enum_profile_api.地址] = "2";
-            value[(int)enum_profile_api.戶號] = "3";
-            value[(int)enum_profile_api.郵遞區號] = "4";
-            value[(int)enum_profile_api.備註] = "5";
+            value[(int)enum_profile_api.姓名] = "四面佛";
+            value[(int)enum_profile_api.地址] = "泰國 ";
+            value[(int)enum_profile_api.加入時間] = DateTime.Now.ToDateTimeString_6();
+            value[(int)enum_profile_api.備註] = "這是第4筆資料";
 
             sQLControl.AddRow(null, value);
-            return $"OK";
+            return $"已新增 \n {value.JsonSerializationt(true)}";
 
         }
 
@@ -69,11 +69,19 @@ namespace WebAPI_MYSQL.Controllers
         }
 
 
-        // GET api/<MYSQLController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        // GET api/<MYSQLController>/way
+        //show ALL
+        [HttpGet("show/{TableName}")]
+        public string Get(string TableName)
         {
-            return "value";
+            
+            SQLControl sqlControl = new SQLControl("127.0.0.1", "adress", "user", "66437068");
+            List<object[]> rows_value = sqlControl.GetAllRows(TableName);
+            if (rows_value.Count == 0)
+            {
+                return "沒有資料啦";
+            }
+            return rows_value.JsonSerializationt(true); 
         }
 
         // POST api/<MYSQLController>
@@ -93,5 +101,12 @@ namespace WebAPI_MYSQL.Controllers
         public void Delete(int id)
         {
         }
+
+
+
+
+        
+       //"2024-05-28T14:04:34.736597",
+       
     }
 }

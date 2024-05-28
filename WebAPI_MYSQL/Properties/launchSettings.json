@@ -12,7 +12,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "api/mysql",
+      "launchUrl": "api/mysql/show/profile_api",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
