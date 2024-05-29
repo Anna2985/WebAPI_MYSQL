@@ -10,6 +10,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HIS_DB_Lib\HIS_DB_Lib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="Basic">
       <HintPath>..\0.DLL\Basic.dll</HintPath>
     </Reference>
@@ -17,5 +21,7 @@
       <HintPath>..\0.DLL\SQLUI.dll</HintPath>
     </Reference>
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>
