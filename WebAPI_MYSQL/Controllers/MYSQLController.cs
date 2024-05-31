@@ -19,12 +19,12 @@ namespace WebAPI_MYSQL.Controllers
 
 
     [Route("api/[controller]")]
-    [ApiController]
+
     public class MYSQLController : Controller
     {
 
         [HttpGet("init")]
-        public string init()
+        public string INIT()
         {
             List<Table> tables = CheckCreateTable();
             Table table = tables.GetTable(new enum_profile_api());
@@ -36,7 +36,7 @@ namespace WebAPI_MYSQL.Controllers
         }
      
         [HttpGet("addrow")]
-        public string Get()
+        public string GET()
         {
             List<Table> tables = CheckCreateTable();
             Table table = tables.GetTable(new enum_profile_api());
@@ -148,9 +148,9 @@ namespace WebAPI_MYSQL.Controllers
 
             for (int i = 0; i < profile_input.Count; i++)
             {
-                //var Code = profile_input[i].地址;
+                string Code = profile_input[i].地址;
                 profile_sql_buf = (from temp in profile_sql
-                                   where temp.地址 == profile_input[i].地址
+                                   where temp.地址 == Code
                                    select temp).ToList();
                 if (profile_sql_buf.Count == 0)
                 {
@@ -163,11 +163,10 @@ namespace WebAPI_MYSQL.Controllers
                 else
                 {
                     string GUID = profile_sql_buf[0].GUID;
-                    string Name = profile_sql_buf[0].姓名;               
+                    //string Name = profile_sql_buf[0].姓名;               
                     tableclass tableclass = profile_input[i];
                     tableclass.GUID = GUID;
-                    tableclass.姓名 = Name;
-                    tableclass.姓名 = "2條根";
+                    tableclass.姓名 = "0000條根"; //HERE!!
                     tableclass.加入時間 = DateTime.Now.ToDateTimeString();
                     profile_sql_replace.Add(tableclass);
                 }
