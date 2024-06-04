@@ -22,7 +22,7 @@ namespace WebAPI_MYSQL.Controllers
 
     public class MYSQLController : Controller
     {
-
+        //swagger/index.html
         [HttpGet("init")]
         public string INIT()
         {
@@ -144,8 +144,53 @@ namespace WebAPI_MYSQL.Controllers
                 return $"Failed to drop table {TableName}";
             }
         }
+        /// <summary>
+        /// 以姓名更新地址資料
+        /// </summary>
+        /// <remarks>
+        ///   {
+        ///     "Data": [
+        ///     
+        ///     
+        ///     
+        ///     
+        ///  
+        ///     }
+        ///    
+        ///   }        /// 
+        /// </remarks>
+        /// <param name="returnData"></param>
+        /// <returns></returns>
+        [HttpPost("update_adress_by_name")]
+        public string POST_update_adress_by_name([FromBody] returnData returnData)
+        {
+            Table table = new Table(new enum_profile_api());
+            SQLControl sqlControl = new SQLControl("127.0.0.1", "adress", "user", "66437068");
+            List<tableclass> profile_input = returnData.Data.ObjToClass<List<tableclass>>();
+            string tableName = table.TableName;
+            string searchValue = profile_input[0].姓名;
+            List<object[]> row_value = sqlControl.GetRowsByDefult(tableName, (int)enum_profile_api.姓名,searchValue);
+            List<tableclass> profile_sql = row_value.SQLToClass<tableclass, enum_profile_api>();
+            List<tableclass> profile_sql_replace = new List<tableclass>();
+            List<object[]> list_profile_replace = new List<object[]>();
+            tableclass tableclass = profile_input[0];
+            return "OK";
 
-        
+            
+
+            
+            //list_profile_add = profile_sql_add.ClassToSQL<tableclass, enum_profile_api>();
+            //list_profile_replace = profile_sql_replace.ClassToSQL<tableclass, enum_profile_api>();
+            //if (list_profile_add.Count > 0) sqlControl.AddRows(table.TableName, list_profile_add);
+            //if (list_profile_replace.Count > 0) sqlControl.UpdateByDefulteExtra(table.TableName, list_profile_replace);
+
+            //returnData.Data = "";
+            //returnData.Code = 200;
+            //returnData.Result = $"修改姓名,新增<{list_profile_add.Count}>筆,修改<{list_profile_replace.Count}>筆";
+            //return returnData.JsonSerializationt(true);
+
+        }
+
         [HttpPost("update")]
         public string POST_update([FromBody] returnData returnData)
         {
@@ -200,7 +245,7 @@ namespace WebAPI_MYSQL.Controllers
             return returnData.JsonSerializationt(true);
 
         }
-        [HttpPost("get_by_post_time_st_end")] //醫令資料的orderT
+        [HttpPost("get_by_post_time_st_end")] //參考醫令資料的orderT
         public  string POST_get_by_op_time_st_end([FromBody] returnData returnData)
         {
             Table table = new Table(new enum_profile_api());
@@ -217,10 +262,35 @@ namespace WebAPI_MYSQL.Controllers
             List<tableclass> tableclasses = list_value_buf.SQLToClass<tableclass, enum_profile_api>();
             returnData.Result = $"取得資料共<{tableclasses.Count}>筆";
             returnData.Data = tableclasses;
+            returnData.TimeTaken = myTimerBasic.ToString();
             return returnData.JsonSerializationt(true);
 
         }
 
+
+        [HttpPost("delete")]
+        public string POST_delete([FromBody] returnData returnData)
+        {
+            Table table = new Table(new enum_profile_api());
+            SQLControl sqlControl = new SQLControl("127.0.0.1", "adress", "user", "66437068");
+            string tablename = table.TableName;
+            
+            List<tableclass> profile_sql_buf = new List<tableclass>();
+            List<tableclass> profile_sql_add = new List<tableclass>();
+            List<tableclass> profile_sql_replace = new List<tableclass>();
+
+            List<tableclass> profile_input = returnData.Data.ObjToClass<List<tableclass>>();
+            string searchvalue = profile_input[0].姓名;
+            List<object[]> row_value = sqlControl.GetRowsByDefult(tablename, (int)enum_profile_api.姓名, searchvalue);
+            sqlControl.DeleteExtra(tablename, row_value);
+            
+                                   
+            returnData.Data = "";
+            returnData.Code = 200;
+            returnData.Result = "刪除資料";
+            return returnData.JsonSerializationt(true);
+
+        }
 
 
 
