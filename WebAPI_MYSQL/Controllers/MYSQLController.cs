@@ -200,17 +200,36 @@ namespace WebAPI_MYSQL.Controllers
             return returnData.JsonSerializationt(true);
 
         }
+        [HttpPost("get_by_post_time_st_end")] //醫令資料的orderT
+        public  string POST_get_by_op_time_st_end([FromBody] returnData returnData)
+        {
+            Table table = new Table(new enum_profile_api());
+            MyTimerBasic myTimerBasic = new MyTimerBasic();
 
+            string 起始時間 = returnData.ValueAry[0];
+            string 結束時間 = returnData.ValueAry[1];
 
+            DateTime date_st = 起始時間.StringToDateTime();
+            DateTime date_ed = 結束時間.StringToDateTime();
 
-
-
-
-
-
-
-
-
+            SQLControl sqlControl = new SQLControl("127.0.0.1", "adress", "user", "66437068");
+            List<object[]> list_value_buf = sqlControl.GetRowsByBetween(table.TableName, (int)enum_profile_api.加入時間, date_st.ToDateTimeString(), date_ed.ToDateTimeString());
+            List<tableclass> tableclasses = list_value_buf.SQLToClass<tableclass, enum_profile_api>();
+            returnData.Result = $"取得資料共<{tableclasses.Count}>筆";
+            returnData.Data = tableclasses;
+            return returnData.JsonSerializationt(true);
 
         }
+
+
+
+
+
+
+
+
+
+
+
+    }
 }
