@@ -57,6 +57,22 @@ namespace WebAPI_MYSQL.Controllers
 
         }
 
+        [HttpGet("search/{tableName}")]
+        public string Search(string tableName, string searchValue)
+        {
+            SQLControl sqlControl = new SQLControl("127.0.0.1", "adress", "user", "66437068");
+            sqlControl.TableName = tableName;
+            List<object[]> rows_value = sqlControl.GetRowsByDefult(tableName, (int)enum_profile_api.地址, searchValue);
+            if (rows_value.Count == 0)
+            {
+                return "無相關資料";
+            }
+            return rows_value.JsonSerializationt(true);
+
+
+
+        }
+
         //create MYSQL DATABASE
         private List<Table> CheckCreateTable()
         {
