@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WebAPI_MYSQL</name>
+    </assembly>
+    <members>
+        <member name="M:WebAPI_MYSQL.Controllers.MYSQLController.POST_update_adress_by_name(HIS_DB_Lib.returnData)">
+            <summary>
+            以姓名更新地址資料
+            </summary>
+            <remarks>
+            以下為JSON範例
+            <code>
+              {
+                "Data":[
+                    {
+                        "Name":
+                    }
+                ],
+                "Value":""
+              
+              }
+            </code>
+            </remarks>
+            <param name="returnData"></param>
+            <returns></returns>
+        </member>
+        <member name="P:WebAPI_MYSQL.tableclass.GUID">
+            <summary>
+            GUID
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "P:WebAPI_MYSQL.tableclass.姓名" -->
+        <!-- Badly formed XML comment ignored for member "P:WebAPI_MYSQL.tableclass.地址" -->
+        <!-- Badly formed XML comment ignored for member "P:WebAPI_MYSQL.tableclass.加入時間" -->
+        <!-- Badly formed XML comment ignored for member "P:WebAPI_MYSQL.tableclass.備註" -->
+    </members>
+</doc>

@@ -148,16 +148,18 @@ namespace WebAPI_MYSQL.Controllers
         /// 以姓名更新地址資料
         /// </summary>
         /// <remarks>
+        /// 以下為JSON範例
+        /// <code>
         ///   {
-        ///     "Data": [
-        ///     
-        ///     
-        ///     
-        ///     
-        ///  
-        ///     }
-        ///    
-        ///   }        /// 
+        ///     "Data":[
+        ///         {
+        ///             "Name":
+        ///         }
+        ///     ],
+        ///     "Value":""
+        ///   
+        ///   }
+        /// </code>
         /// </remarks>
         /// <param name="returnData"></param>
         /// <returns></returns>
@@ -170,24 +172,46 @@ namespace WebAPI_MYSQL.Controllers
             string tableName = table.TableName;
             string searchValue = profile_input[0].姓名;
             List<object[]> row_value = sqlControl.GetRowsByDefult(tableName, (int)enum_profile_api.姓名,searchValue);
+
+            
+
             List<tableclass> profile_sql = row_value.SQLToClass<tableclass, enum_profile_api>();
             List<tableclass> profile_sql_replace = new List<tableclass>();
+
             List<object[]> list_profile_replace = new List<object[]>();
+
             tableclass tableclass = profile_input[0];
-            return "OK";
+            string value = returnData.Value;
+            string GUID = profile_sql[0].GUID;
+            string 姓名 = profile_sql[0].姓名;
+            string 備註 = profile_sql[0].備註;
+            tableclass.GUID = GUID;
+            tableclass.姓名 = 姓名;
+            tableclass.地址 = value;
+            tableclass.加入時間 = DateTime.Now.ToDateTimeString();
+            tableclass.備註 = 備註;
 
-            
+            profile_sql_replace.Add(tableclass);
 
-            
-            //list_profile_add = profile_sql_add.ClassToSQL<tableclass, enum_profile_api>();
-            //list_profile_replace = profile_sql_replace.ClassToSQL<tableclass, enum_profile_api>();
-            //if (list_profile_add.Count > 0) sqlControl.AddRows(table.TableName, list_profile_add);
-            //if (list_profile_replace.Count > 0) sqlControl.UpdateByDefulteExtra(table.TableName, list_profile_replace);
+            list_profile_replace = profile_sql_replace.ClassToSQL<tableclass, enum_profile_api>();
+            if (list_profile_replace.Count > 0) sqlControl.UpdateByDefulteExtra(tableName, list_profile_replace);
 
-            //returnData.Data = "";
-            //returnData.Code = 200;
-            //returnData.Result = $"修改姓名,新增<{list_profile_add.Count}>筆,修改<{list_profile_replace.Count}>筆";
-            //return returnData.JsonSerializationt(true);
+            returnData.Result = "修改成功";
+            return returnData.JsonSerializationt(true);
+
+
+
+
+
+
+
+            list_profile_replace = profile_sql_replace.ClassToSQL<tableclass, enum_profile_api>();
+            if (list_profile_replace.Count > 0) sqlControl.UpdateByDefulteExtra(table.TableName, list_profile_replace);
+
+            returnData.Data = "";
+            returnData.Code = 200;
+            returnData.Result = $"修改地址";
+            return returnData.JsonSerializationt(true);
 
         }
 

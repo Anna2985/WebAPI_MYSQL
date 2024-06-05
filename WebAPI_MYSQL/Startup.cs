@@ -47,6 +47,8 @@ namespace WebAPI_MYSQL
             {
                 endpoints.MapControllers();
             });
+
+
         }
     }
 }
